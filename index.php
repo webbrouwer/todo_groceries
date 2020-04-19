@@ -20,7 +20,6 @@ include "./functions.php";
         <div class="container">
             <div class="todo-box">
                 <h1>Boodschappen</h1>
-                <p>Intro</p>
             
                 <h2>Groente & Fruit</h2>
                 <form id="form-1" action="./functions.php" method="POST">
