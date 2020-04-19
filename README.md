@@ -10,6 +10,7 @@ Afterwards fill in your the stuff you need and go for the groceries you need!
 
 ## TODO
 
-* @TODO: https://gomakethings.com/getting-an-array-of-form-data-with-vanilla-js/
-* @TODO: Collect data from seperated forms in on function (main.js l:48)
+* Collect data from seperated forms in on function (main.js l:48)
+    * https://gomakethings.com/getting-an-array-of-form-data-with-vanilla-js/
+
 
