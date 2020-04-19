@@ -1,9 +1,6 @@
-<?php 
-// @TODO: add automated production process via git: https://www.diffuse.nl/blog/how-to-set-up-git-for-automated-deployments
-
+<?php
 // Silky smooth functions
 include "./functions.php";
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
