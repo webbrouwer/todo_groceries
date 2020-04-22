@@ -35,7 +35,7 @@ include "./functions.php";
                     <?php } ?>
                     <div class="list"></div>
                     <input type="hidden" name="category" value="groente_fruit">
-                    <input type="text" name="item" id="item" placeholder="Toevoegen..."> <input form="form-1" name="form-1" type="submit" value="Voeg toe">
+                    <input type="text" name="item" id="item" placeholder="Toevoegen..."> <button form="form-1" name="form-1" type="submit">Voeg toeg</button>
                 </form>
 
                 <h2>Vleeswaren & Beleg</h2>
