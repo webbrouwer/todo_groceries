@@ -35,7 +35,7 @@ include "./functions.php";
                     <?php } ?>
                     <div class="list"></div>
                     <input type="hidden" name="category" value="groente_fruit">
-                    <input type="text" name="item" id="item" placeholder="Toevoegen..."> <button form="form-1" name="form-1" type="submit">Voeg toeg</button>
+                    <input type="text" name="item" id="item" placeholder="Toevoegen..."> <button form="form-1" name="form-1" type="submit">Voeg toe</button>
                 </form>
 
                 <h2>Vleeswaren & Beleg</h2>
@@ -55,7 +55,7 @@ include "./functions.php";
                     <?php } ?>
                     <div class="list2"></div> 
                     <input type="hidden" name="category" value="vleeswaren_beleg">
-                    <input type="text" name="item" id="item" placeholder="Toevoegen..."> <input form="form-2" name="form-2" type="submit" value="Voeg toe">
+                    <input type="text" name="item" id="item" placeholder="Toevoegen..."> <button form="form-2" name="form-1" type="submit">Voeg toe</button>
                 </form>
 
                 <h2>Huishouden</h2>
@@ -75,7 +75,7 @@ include "./functions.php";
                     <?php } ?>                      
                     <div class="list3"></div>  
                     <input type="hidden" name="category" value="huishouden">
-                    <input type="text" name="item" id="item" placeholder="Toevoegen..."> <input form="form-3" name="form-3" type="submit" value="Voeg toe">
+                    <input type="text" name="item" id="item" placeholder="Toevoegen..."> <button form="form-3" name="form-1" type="submit">Voeg toe</button>
                 </form>
                 
                 <h2>Overig</h2>
@@ -95,7 +95,7 @@ include "./functions.php";
                     <?php } ?>                     
                     <div class="list4"></div>
                     <input type="hidden" name="category" value="overig">
-                    <input type="text" name="item" id="item" placeholder="Toevoegen..."> <input form="form-4" name="form-4" type="submit" value="Voeg toe">
+                    <input type="text" name="item" id="item" placeholder="Toevoegen..."> <button form="form-4" name="form-1" type="submit">Voeg toe</button>
                 </form>                
             </div>
         </div>
