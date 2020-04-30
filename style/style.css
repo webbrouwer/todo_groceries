@@ -31,15 +31,24 @@ h1 {
     font-size: 34px;
 }
 
-h2 {
+h2, .h2 {
     color: orange;
     letter-spacing: 2px;
     font-size: 18px;
+    margin-bottom: 0px;
 }
 
 p {
     font-size: 20px;
     color: #545454;
+}
+
+.inline {
+    display: inline-block;
+}
+
+.edit {
+    font-style: italic;
 }
 
 ul li {

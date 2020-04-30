@@ -6,9 +6,9 @@ function escapeHtml(unsafe) {
          .replace(/>/g, "&gt;")
          .replace(/"/g, "&quot;")
          .replace(/'/g, "&#039;");
- }
+}
 
-// Animate and complete items
+// Animate and complete items, also send dato via AJAX to PHP Processor
 document.addEventListener('click', function (event) {
 
 	// If the clicked element doesn't have the right selector, bail
@@ -137,3 +137,15 @@ function addItem4() {
     // Insert the new node before the reference node
     parentNode.append(newNode);
 }
+
+// Edit List Titels
+
+var edit = document.getElementById('js-edit');
+// var name = document.getElementById('js-list-title').innerHTML;
+
+// console.log(name);
+
+edit.addEventListener('click', function(event) {
+    var newName = prompt('What would you like to be the name category name?');
+    document.getElementById('js-list-title').innerHTML = newName;
+}, false);

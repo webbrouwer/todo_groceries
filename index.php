@@ -17,8 +17,10 @@ include "./functions.php";
         <div class="container">
             <div class="todo-box">
                 <h1>Boodschappen</h1>
+
+                <?php $listNames = getAllTableNames(); ?>
             
-                <h2>Groente & Fruit</h2>
+                <h2 id="js-list-title" class="inline"><?php echo $listNames[0]; ?></h2> <span id="js-edit" class="edit">Edit</span>
                 <form id="form-1" action="./functions.php" method="POST">
                     <?php foreach (listGroceries('groente_fruit') as $item) { ?>
                         <p>
@@ -38,7 +40,7 @@ include "./functions.php";
                     <input type="text" name="item" id="item" placeholder="Toevoegen..."> <button form="form-1" name="form-1" type="submit">Voeg toe</button>
                 </form>
 
-                <h2>Vleeswaren & Beleg</h2>
+                <h2><?php echo $listNames[1]; ?></h2>
                 <form id="form-2" action="./functions.php" method="POST">
                     <?php foreach (listGroceries('vleeswaren_beleg') as $item) { ?>
                         <p>
@@ -58,7 +60,7 @@ include "./functions.php";
                     <input type="text" name="item" id="item" placeholder="Toevoegen..."> <button form="form-2" name="form-1" type="submit">Voeg toe</button>
                 </form>
 
-                <h2>Huishouden</h2>
+                <h2><?php echo $listNames[2]; ?></h2>
                 <form id="form-3" action="" method="POST">
                     <?php foreach (listGroceries('huishouden') as $item) { ?>
                         <p>
@@ -78,7 +80,7 @@ include "./functions.php";
                     <input type="text" name="item" id="item" placeholder="Toevoegen..."> <button form="form-3" name="form-1" type="submit">Voeg toe</button>
                 </form>
                 
-                <h2>Overig</h2>
+                <h2><?php echo $listNames[3]; ?></h2>
                 <form id="form-4" action="" method="POST">
                     <?php foreach (listGroceries('overig') as $item) { ?>
                         <p>

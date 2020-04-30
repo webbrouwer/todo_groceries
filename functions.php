@@ -1,5 +1,11 @@
 <?php 
 
+/**
+*
+* List Groceries
+*
+*/
+ 
 function listGroceries($cat) {
     include "./config/config.php";
 
@@ -25,6 +31,13 @@ function listGroceries($cat) {
 
 // require for DB connection swa
 require "./config/config.php";
+
+
+/**
+*
+* Create list data form 1
+*
+*/
 
 if(isset($_POST['form-1'])) {
     $item = htmlspecialchars($_POST['item'], ENT_QUOTES, 'utf-8');
@@ -57,6 +70,12 @@ if(isset($_POST['form-1'])) {
     header('location: ' . $homeUrl);
 }
 
+/**
+*
+* Create list data form 2
+*
+*/
+
 if(isset($_POST['form-2'])) {
     $item = htmlspecialchars($_POST['item'], ENT_QUOTES, 'utf-8');
     $category = htmlspecialchars($_POST['category'], ENT_QUOTES, 'utf-8');
@@ -87,6 +106,12 @@ if(isset($_POST['form-2'])) {
 
     header('location: ' . $homeUrl);   
 }
+
+/**
+*
+* Create list data form 3
+*
+*/
 
 if(isset($_POST['form-3'])) {
     $item = htmlspecialchars($_POST['item'], ENT_QUOTES, 'utf-8');
@@ -119,6 +144,12 @@ if(isset($_POST['form-3'])) {
     header('location: ' . $homeUrl);   
 }
 
+/**
+*
+* Create list data form 4
+*
+*/
+
 if(isset($_POST['form-4'])) {
     $item = htmlspecialchars($_POST['item'], ENT_QUOTES, 'utf-8');
     $category = htmlspecialchars($_POST['category'], ENT_QUOTES, 'utf-8');
@@ -150,6 +181,12 @@ if(isset($_POST['form-4'])) {
     header('location: ' . $homeUrl);   
 }
 
+/**
+*
+* Remove from DB function
+*
+*/
+
 function removeFromDb($id, $cat) {
     include "./config/config.php";
 
@@ -169,6 +206,12 @@ function removeFromDb($id, $cat) {
     }
 }
 
+/**
+*
+* Receive clicked list item
+*
+*/
+
 $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
 
 if ($contentType === "application/json") {
@@ -185,3 +228,30 @@ if ($contentType === "application/json") {
     echo 'JSON invalid';
   }
 }
+
+function getAllTableNames() {
+    include "./config/config.php";
+
+    $connection = new PDO($dsn, $username, $password, $options);
+    
+    //Our SQL statement, which will select a list of tables from the current MySQL database.
+    $sql = "SHOW TABLES";
+    
+    //Prepare our SQL statement,
+    $statement = $connection->prepare($sql);
+    
+    //Execute the statement.
+    $statement->execute();
+    
+    //Fetch the rows from our statement.
+    $tables = $statement->fetchAll(PDO::FETCH_NUM);
+
+    // Loop through our table names.
+    foreach($tables as $table) {
+        //Print the table name out onto the page.
+        $listNames[] = $table[0];
+    }
+
+    return $listNames;
+}
+
