@@ -18,6 +18,46 @@ include "./functions.php";
             <div class="todo-box">
                 <h1>Boodschappen</h1>
 
+                <span id="js-add-category" class="add-category">Voeg categorie toe</span>
+
+                <div id="category-name-input" class="hidden">
+                    <form id="category_name_form" action="./functions.php" method="POST">
+                        <input type="text" name="category_name" id="category_name" placeholder="Nieuwe categorie..."> <button form="category_name_form" name="category_name_form" type="submit">Voeg toe</button>
+                    </form>
+                </div>
+
+                <?php 
+                
+                $data = getAllCategoriesAndItems();
+
+                // echo '<pre>';
+                // var_dump($data);
+                // echo '</pre>';
+                // exit;
+
+                foreach($data as $category => $items){
+
+                    echo $category.'<br>';
+                
+                    foreach($items as $item){
+                        echo '    <> '.$item['item'].'<br>';
+                    }
+
+                    ?>
+
+                    <form id="item-name-input" action="./functions.php" method="POST">
+                        <input type="hidden" name="category_id" value="<?php echo $item['category_id']; ?>">
+                        <input type="text" name="item" id="item" placeholder="Toevoegen..."> <button form="item-name-input" name="item-name-input" type="submit">Voeg toe</button>
+                    </form>
+
+                    <?php
+
+                    
+                }   
+                
+                ?>
+                </pre>
+
                 <?php $listNames = getAllTableNames(); ?>
             
                 <h2 id="js-list-title" class="inline"><?php echo $listNames[0]; ?></h2> <span id="js-edit" class="edit">Edit</span>

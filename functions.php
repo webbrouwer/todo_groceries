@@ -2,6 +2,161 @@
 
 /**
 *
+* Collect category_name_form and add input to categories table
+*
+*/
+
+if(isset($_POST['category_name_form'])) {
+    // Collect category name from form
+    $category_name = htmlspecialchars($_POST['category_name'], ENT_QUOTES, 'utf-8');
+
+    // Include for connection
+    include "./config/config.php";
+
+    try {
+
+        $connection = new PDO($dsn, $username, $password, $options);
+
+        $data = [
+            'category_name' => $category_name
+        ];
+
+        $sql = "INSERT INTO categories (category_name) VALUES (:category_name)";
+
+        $statement = $connection->prepare($sql);
+        $statement->execute($data);
+
+    }   
+    
+    catch(PDOExeption $error) {
+        echo $sql . "<br>" . $error->getMessage();
+    }
+
+    header('location: ' . $homeUrl);
+}
+
+
+
+/**
+*
+* Collect item-name-input and add input to items table
+*
+*/
+
+if(isset($_POST['item-name-input'])) {
+    // Collect item input from form
+    $item = htmlspecialchars($_POST['item'], ENT_QUOTES, 'utf-8');
+    $category_id = htmlspecialchars($_POST['category_id'], ENT_QUOTES, 'utf-8');
+
+    // Include for connection
+    include "./config/config.php";
+
+    try {
+
+        $connection = new PDO($dsn, $username, $password, $options);
+
+        $data = [
+            'item' => $item,
+            'category_id' => $category_id
+        ];
+
+        $sql = "INSERT INTO items (item, category_id) VALUES (:item, :category_id)";
+
+        $statement = $connection->prepare($sql);
+        $statement->execute($data);
+        
+        echo 'success, go to bed :-)!';
+
+    }   
+    
+    catch(PDOExeption $error) {
+        echo $sql . "<br>" . $error->getMessage();
+    }
+
+    // header('location: ' . $homeUrl);
+}
+
+
+/**
+*
+* Get categories
+*
+*/
+
+function getAllCategories() {
+    include "./config/config.php";
+
+    try {
+
+        $connection = new PDO($dsn, $username, $password, $options);
+    
+        $sql = "SELECT * 
+                FROM categories";
+    
+        $statement = $connection->prepare($sql);
+        $statement->execute();
+    
+        $items = $statement->fetchAll();
+    }
+    
+    catch(PDOExeption $error) {
+        echo $sql . "<br>" . $error->getMessage();
+    }
+
+    return $items;
+}
+
+
+/**
+*
+* Retrieve categories and items
+*
+* Source: https://stackoverflow.com/questions/36458593/sql-join-two-tables-to-give-multi-array-result
+*
+*/
+
+function getAllCategoriesAndItems() {
+    include "./config/config.php";
+
+    $connection = new PDO($dsn, $username, $password, $options);
+  
+    try {
+
+        $connection = new PDO($dsn, $username, $password, $options);
+    
+        $sql = "SELECT categories.category_name, items.category_id, items.item 
+                FROM categories 
+                INNER JOIN items
+                ON items.category_id = categories.id
+                ORDER BY categories.category_name, items.item";
+    
+        $statement = $connection->prepare($sql);
+        $statement->execute();
+    
+        // $items = $statement->fetchAll();   
+        $items = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        $data = array();
+
+        foreach($items as $row){
+            $data[$row['category_name']][$row['item']]['item'] = $row['item'];
+            $data[$row['category_name']][$row['item']]['category_id'] = $row['category_id'];
+        }        
+
+    }
+    
+    catch(PDOExeption $error) {
+        echo $sql . "<br>" . $error->getMessage();
+    }
+
+    return $data;
+}
+
+
+
+
+/**
+*
 * List Groceries
 *
 */
@@ -229,6 +384,7 @@ if ($contentType === "application/json") {
   }
 }
 
+
 function getAllTableNames() {
     include "./config/config.php";
 
@@ -254,4 +410,3 @@ function getAllTableNames() {
 
     return $listNames;
 }
-

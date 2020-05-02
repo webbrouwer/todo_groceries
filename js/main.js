@@ -8,6 +8,14 @@ function escapeHtml(unsafe) {
          .replace(/'/g, "&#039;");
 }
 
+// display input field for adding new category
+
+var addCategory = document.getElementById('js-add-category');
+
+addCategory.addEventListener('click', function() {
+    document.getElementById('category-name-input').classList.remove('hidden');
+}) 
+
 // Animate and complete items, also send dato via AJAX to PHP Processor
 document.addEventListener('click', function (event) {
 
