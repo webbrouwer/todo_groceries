@@ -64,8 +64,6 @@ if(isset($_POST['item-name-input'])) {
 
         $statement = $connection->prepare($sql);
         $statement->execute($data);
-        
-        echo 'success, go to bed :-)!';
 
     }   
     
@@ -73,37 +71,7 @@ if(isset($_POST['item-name-input'])) {
         echo $sql . "<br>" . $error->getMessage();
     }
 
-    // header('location: ' . $homeUrl);
-}
-
-
-/**
-*
-* Get categories
-*
-*/
-
-function getAllCategories() {
-    include "./config/config.php";
-
-    try {
-
-        $connection = new PDO($dsn, $username, $password, $options);
-    
-        $sql = "SELECT * 
-                FROM categories";
-    
-        $statement = $connection->prepare($sql);
-        $statement->execute();
-    
-        $items = $statement->fetchAll();
-    }
-    
-    catch(PDOExeption $error) {
-        echo $sql . "<br>" . $error->getMessage();
-    }
-
-    return $items;
+    header('location: ' . $homeUrl);
 }
 
 
@@ -123,17 +91,16 @@ function getAllCategoriesAndItems() {
     try {
 
         $connection = new PDO($dsn, $username, $password, $options);
-    
-        $sql = "SELECT categories.category_name, items.category_id, items.item 
+        
+        $sql = "SELECT categories.id AS cat_id, categories.category_name, items.item, items.id, items.category_id
                 FROM categories 
-                INNER JOIN items
-                ON items.category_id = categories.id
-                ORDER BY categories.category_name, items.item";
-    
+                LEFT JOIN items
+                ON  categories.id = items.category_id
+                ORDER BY categories.category_name, items.item";     
+
         $statement = $connection->prepare($sql);
         $statement->execute();
     
-        // $items = $statement->fetchAll();   
         $items = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         $data = array();
@@ -141,6 +108,8 @@ function getAllCategoriesAndItems() {
         foreach($items as $row){
             $data[$row['category_name']][$row['item']]['item'] = $row['item'];
             $data[$row['category_name']][$row['item']]['category_id'] = $row['category_id'];
+            $data[$row['category_name']][$row['item']]['id'] = $row['id'];
+            $data[$row['category_name']][$row['item']]['cat_id'] = $row['cat_id'];
         }        
 
     }
@@ -153,203 +122,20 @@ function getAllCategoriesAndItems() {
 }
 
 
-
-
-/**
-*
-* List Groceries
-*
-*/
- 
-function listGroceries($cat) {
-    include "./config/config.php";
-
-    try {
-
-        $connection = new PDO($dsn, $username, $password, $options);
-    
-        $sql = "SELECT * 
-                FROM $cat";
-    
-        $statement = $connection->prepare($sql);
-        $statement->execute();
-    
-        $items = $statement->fetchAll();
-    }
-    
-    catch(PDOExeption $error) {
-        echo $sql . "<br>" . $error->getMessage();
-    }
-
-    return $items;
-}
-
-// require for DB connection swa
-require "./config/config.php";
-
-
-/**
-*
-* Create list data form 1
-*
-*/
-
-if(isset($_POST['form-1'])) {
-    $item = htmlspecialchars($_POST['item'], ENT_QUOTES, 'utf-8');
-    $category = htmlspecialchars($_POST['category'], ENT_QUOTES, 'utf-8');
-
-    try {
-        $connection = new PDO($dsn, $username, $password, $options);
-        // insert new user code here
-
-        $new_item = array(
-            "item" => $item
-        );
-        
-        // $sql = "INSERT INTO groente_fruit (item) values (:item)";
-        $sql = sprintf(
-            "INSERT INTO %s (%s) values (%s)",
-            "$category",
-            implode(", ", array_keys($new_item)),
-            ":" . implode(", :", array_keys($new_item))
-        );
-
-        $statement = $connection->prepare($sql);
-        $statement->execute($new_item);   
-    }
-
-    catch(PDOExeption $error) {
-        echo $sql . "<br>" . $error->getMessage();
-    }
-
-    header('location: ' . $homeUrl);
-}
-
-/**
-*
-* Create list data form 2
-*
-*/
-
-if(isset($_POST['form-2'])) {
-    $item = htmlspecialchars($_POST['item'], ENT_QUOTES, 'utf-8');
-    $category = htmlspecialchars($_POST['category'], ENT_QUOTES, 'utf-8');
-
-    try {
-        $connection = new PDO($dsn, $username, $password, $options);
-        // insert new user code here
-
-        $new_item = array(
-            "item" => $item
-        );
-        
-        // $sql = "INSERT INTO groente_fruit (item) values (:item)";
-        $sql = sprintf(
-            "INSERT INTO %s (%s) values (%s)",
-            "$category",
-            implode(", ", array_keys($new_item)),
-            ":" . implode(", :", array_keys($new_item))
-        );
-
-        $statement = $connection->prepare($sql);
-        $statement->execute($new_item);   
-    }
-
-    catch(PDOExeption $error) {
-        echo $sql . "<br>" . $error->getMessage();
-    }
-
-    header('location: ' . $homeUrl);   
-}
-
-/**
-*
-* Create list data form 3
-*
-*/
-
-if(isset($_POST['form-3'])) {
-    $item = htmlspecialchars($_POST['item'], ENT_QUOTES, 'utf-8');
-    $category = htmlspecialchars($_POST['category'], ENT_QUOTES, 'utf-8');
-
-    try {
-        $connection = new PDO($dsn, $username, $password, $options);
-        // insert new user code here
-
-        $new_item = array(
-            "item" => $item
-        );
-        
-        // $sql = "INSERT INTO groente_fruit (item) values (:item)";
-        $sql = sprintf(
-            "INSERT INTO %s (%s) values (%s)",
-            "$category",
-            implode(", ", array_keys($new_item)),
-            ":" . implode(", :", array_keys($new_item))
-        );
-
-        $statement = $connection->prepare($sql);
-        $statement->execute($new_item);   
-    }
-
-    catch(PDOExeption $error) {
-        echo $sql . "<br>" . $error->getMessage();
-    }
-
-    header('location: ' . $homeUrl);   
-}
-
-/**
-*
-* Create list data form 4
-*
-*/
-
-if(isset($_POST['form-4'])) {
-    $item = htmlspecialchars($_POST['item'], ENT_QUOTES, 'utf-8');
-    $category = htmlspecialchars($_POST['category'], ENT_QUOTES, 'utf-8');
-
-    try {
-        $connection = new PDO($dsn, $username, $password, $options);
-        // insert new user code here
-
-        $new_item = array(
-            "item" => $item
-        );
-        
-        // $sql = "INSERT INTO groente_fruit (item) values (:item)";
-        $sql = sprintf(
-            "INSERT INTO %s (%s) values (%s)",
-            "$category",
-            implode(", ", array_keys($new_item)),
-            ":" . implode(", :", array_keys($new_item))
-        );
-
-        $statement = $connection->prepare($sql);
-        $statement->execute($new_item);   
-    }
-
-    catch(PDOExeption $error) {
-        echo $sql . "<br>" . $error->getMessage();
-    }
-
-    header('location: ' . $homeUrl);   
-}
-
 /**
 *
 * Remove from DB function
 *
 */
 
-function removeFromDb($id, $cat) {
+function removeFromDb($id, $group) {
     include "./config/config.php";
 
     try {
 
         $connection = new PDO($dsn, $username, $password, $options);
     
-        $sql = "DELETE FROM $cat
+        $sql = "DELETE FROM $group
                 WHERE id=$id";
     
         $connection->exec($sql);
@@ -363,10 +149,11 @@ function removeFromDb($id, $cat) {
 
 /**
 *
-* Receive clicked list item
+* Receive clicked list item from JS AJAX
 *
 */
 
+// @TODO: collect delete checkbox + delete table + edit table name from JS
 $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
 
 if ($contentType === "application/json") {
@@ -377,36 +164,9 @@ if ($contentType === "application/json") {
 
   //If json_decode failed, the JSON is invalid.
   if(is_array($decoded)) {
-    removeFromDb(intval($decoded['id']), $decoded['cat']);  
+    removeFromDb(intval($decoded['id']), $decoded['group']);  
   } else {
     // Send error back to user.
     echo 'JSON invalid';
   }
-}
-
-
-function getAllTableNames() {
-    include "./config/config.php";
-
-    $connection = new PDO($dsn, $username, $password, $options);
-    
-    //Our SQL statement, which will select a list of tables from the current MySQL database.
-    $sql = "SHOW TABLES";
-    
-    //Prepare our SQL statement,
-    $statement = $connection->prepare($sql);
-    
-    //Execute the statement.
-    $statement->execute();
-    
-    //Fetch the rows from our statement.
-    $tables = $statement->fetchAll(PDO::FETCH_NUM);
-
-    // Loop through our table names.
-    foreach($tables as $table) {
-        //Print the table name out onto the page.
-        $listNames[] = $table[0];
-    }
-
-    return $listNames;
 }
