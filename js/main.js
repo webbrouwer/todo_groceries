@@ -79,10 +79,10 @@ document.addEventListener('click', function (event) {
   var newName = escapeHtml(prompt('Aangepaste categorie naam:')); 
 
   // Get ListTitleId
-  ListTitleId = 'js-list-title_' + escapeHtml(event.target.getAttribute('data-id'));
+  listTitleId = 'js-list-title_' + escapeHtml(event.target.getAttribute('data-id'));
 
   // Set new category name
-  document.getElementById(ListTitleId).innerHTML = newName;
+  document.getElementById(listTitleId).innerHTML = newName;
     
   // Store values for edit
   var data = {

@@ -24,7 +24,7 @@ include "./functions.php";
                     
                     <div class="todo-cat">
 
-                        <h2 id="js-list-title" class="inline"><?php echo htmlspecialchars($category); ?></h2>
+                        <h2 id="js-list-title_<?php echo htmlspecialchars($items['cat_id']); ?>" class="inline"><?php echo htmlspecialchars($category); ?></h2>
                         <img
                             src="./icons/edit.png"
                             alt="edit-icon"
