@@ -6,9 +6,28 @@ function escapeHtml(unsafe) {
          .replace(/>/g, "&gt;")
          .replace(/"/g, "&quot;")
          .replace(/'/g, "&#039;");
- }
+}
 
-// Animate and complete items
+/**
+*
+* Complete item
+*
+*/
+
+var addCategory = document.getElementById('js-add-category');
+
+addCategory.addEventListener('click', function() {
+    document.getElementById('category-name-input').classList.remove('hide');
+}) 
+
+
+/**
+*
+* Complete item
+*
+*/
+
+// Animate and complete items, also send data via AJAX to PHP processor
 document.addEventListener('click', function (event) {
 
 	// If the clicked element doesn't have the right selector, bail
@@ -24,8 +43,9 @@ document.addEventListener('click', function (event) {
     
     // Store values of checkbox
     var data = {
-        id: escapeHtml(event.target.getAttribute('data-id')),
-        cat: escapeHtml(event.target.getAttribute('data-cat'))
+      id: escapeHtml(event.target.getAttribute('data-id')),
+      group: escapeHtml(event.target.getAttribute('data-group')),      
+      data_action: 'delete_item',
     };
 
     // Ajax POST to send checkbox value to PHP processor
@@ -35,8 +55,7 @@ document.addEventListener('click', function (event) {
       credentials: "same-origin",
       headers: {
         "Content-Type": "application/json"
-      },      
-        // body: event.target.getAttribute('data-id')
+      },
         body: JSON.stringify(data)
     }).then(res => {
       console.log("Request complete! response:", res);
@@ -45,95 +64,86 @@ document.addEventListener('click', function (event) {
 }, false);
 
 
-// Collect form data and display in list
-// @TODO: https://gomakethings.com/getting-an-array-of-form-data-with-vanilla-js/
-// @TODO: Collect data from seperated forms in on function
+/**
+*
+* Edit category titles
+*
+*/
 
-var form1 = document.getElementById('form-1');
-var form2 = document.getElementById('form-2');
-var form3 = document.getElementById('form-3');
-var form4 = document.getElementById('form-4');
+document.addEventListener('click', function (event) {
 
-form1.addEventListener('submit', addItem);
-form2.addEventListener('submit', addItem2);
-form3.addEventListener('submit', addItem3);
-form4.addEventListener('submit', addItem4);
+	// If the clicked element doesn't have the right selector, bail
+  if (!event.target.matches('.js-edit')) return;
+  
+  // Prompt input for new category name
+  var newName = escapeHtml(prompt('Aangepaste categorie naam:')); 
 
-function addItem() {
-    // Collect value from input
-    var item = document.getElementById("item").value;
+  // Get ListTitleId
+  ListTitleId = 'js-list-title_' + escapeHtml(event.target.getAttribute('data-id'));
 
-    // Create a new element
-    var newNode = document.createElement('p');
-    newNode.innerHTML += '<input type="checkbox" id="' + item + '" />';
-    newNode.innerHTML += '<label class="checkboxLabel" for="' + item + '">' + item + '</label>';
-
-    // Get the parent node
-    var parentNode = document.querySelector('.list');
-
-    // Insert the new node before the reference node
-    parentNode.append(newNode);
-
-    // Reset input
-    // form1.reset();    
-}
-
-
-function addItem2() {
-    // Collect value from input
-    var item = document.getElementById("item2").value;
+  // Set new category name
+  document.getElementById(ListTitleId).innerHTML = newName;
     
-    // Reset input
-    form2.reset(); 
+  // Store values for edit
+  var data = {
+    id: escapeHtml(event.target.getAttribute('data-id')),
+    group: escapeHtml(event.target.getAttribute('data-group')),
+    new_name: newName,
+    data_action: 'edit_category_name'
+  };
 
-    // Create a new element
-    var newNode = document.createElement('p');
-    newNode.innerHTML += '<input type="checkbox" id="' + item + '" />';
-    newNode.innerHTML += '<label class="checkboxLabel" for="' + item + '">' + item + '</label>';
+  // Ajax POST to send checkbox value to PHP processor
+  fetch("functions.php", {
+    method: "POST",
+    mode: "same-origin",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json"
+    },
+      body: JSON.stringify(data)
+  }).then(res => {
+    console.log("Request complete! response:", res);
+  });    
 
-    // Get the parent node
-    var parentNode = document.querySelector('.list2');
-
-    // Insert the new node before the reference node
-    parentNode.append(newNode);
-}
-
-
-function addItem3() {
-    // Collect value from input
-    var item = document.getElementById("item3").value;
-    
-    // Reset input
-    form3.reset(); 
-
-    // Create a new element
-    var newNode = document.createElement('p');
-    newNode.innerHTML += '<input type="checkbox" id="' + item + '" />';
-    newNode.innerHTML += '<label class="checkboxLabel" for="' + item + '">' + item + '</label>';
-
-    // Get the parent node
-    var parentNode = document.querySelector('.list3');
-
-    // Insert the new node before the reference node
-    parentNode.append(newNode);
-}
+}, false);
 
 
-function addItem4() {
-    // Collect value from input
-    var item = document.getElementById("item4").value;
-    
-    // Reset input
-    form4.reset(); 
+/**
+*
+* Delete categorie and items
+*
+*/
 
-    // Create a new element
-    var newNode = document.createElement('p');
-    newNode.innerHTML += '<input type="checkbox" id="' + item + '" />';
-    newNode.innerHTML += '<label class="checkboxLabel" for="' + item + '">' + item + '</label>';
+document.addEventListener('click', function (event) {
 
-    // Get the parent node
-    var parentNode = document.querySelector('.list4');
+	// If the clicked element doesn't have the right selector, bail
+  if (!event.target.matches('.js-delete')) return;  
 
-    // Insert the new node before the reference node
-    parentNode.append(newNode);
-}
+  // Add class hide to clicked element
+  event.target.parentNode.classList.add('hide-animation');
+  
+  // Set timeout before hide item
+  setTimeout(function() {
+      event.target.parentNode.classList.add('hide');
+  }, 500) 
+  
+  // Store values of delete
+  var data = {
+    id: escapeHtml(event.target.getAttribute('data-id')),
+    data_action: 'delete_category'
+  };
+
+  // Ajax POST to send checkbox value to PHP processor
+  fetch("functions.php", {
+    method: "POST",
+    mode: "same-origin",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json"
+    },
+      body: JSON.stringify(data)
+  }).then(res => {
+    console.log("Request complete! response:", res);
+  }); 
+
+}, false);

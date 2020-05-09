@@ -17,86 +17,67 @@ include "./functions.php";
         <div class="container">
             <div class="todo-box">
                 <h1>Boodschappen</h1>
-            
-                <h2>Groente & Fruit</h2>
-                <form id="form-1" action="./functions.php" method="POST">
-                    <?php foreach (listGroceries('groente_fruit') as $item) { ?>
-                        <p>
-                            <input type="checkbox" id="<?php echo $item['id']; ?>" />
-                            <label 
-                                class="checkboxLabel"
-                                data-cat="groente_fruit"
-                                data-id="<?php echo $item['id']; ?>"
-                                for="<?php echo $item['id']; ?>"
-                            >
-                                <?php echo $item['item']; ?>
-                            </label>
-                        </p>   
-                    <?php } ?>
-                    <div class="list"></div>
-                    <input type="hidden" name="category" value="groente_fruit">
-                    <input type="text" name="item" id="item" placeholder="Toevoegen..."> <button form="form-1" name="form-1" type="submit">Voeg toe</button>
-                </form>
 
-                <h2>Vleeswaren & Beleg</h2>
-                <form id="form-2" action="./functions.php" method="POST">
-                    <?php foreach (listGroceries('vleeswaren_beleg') as $item) { ?>
-                        <p>
-                            <input type="checkbox" id="<?php echo $item['id']; ?>" />
-                            <label 
-                                class="checkboxLabel"
-                                data-cat="vleeswaren_beleg"
-                                data-id="<?php echo $item['id']; ?>"
-                                for="<?php echo $item['id']; ?>"
-                            >
-                                <?php echo $item['item']; ?>
-                            </label>
-                        </p>   
-                    <?php } ?>
-                    <div class="list2"></div> 
-                    <input type="hidden" name="category" value="vleeswaren_beleg">
-                    <input type="text" name="item" id="item" placeholder="Toevoegen..."> <button form="form-2" name="form-1" type="submit">Voeg toe</button>
-                </form>
+                <?php $data = getAllCategoriesAndItems();
 
-                <h2>Huishouden</h2>
-                <form id="form-3" action="" method="POST">
-                    <?php foreach (listGroceries('huishouden') as $item) { ?>
-                        <p>
-                            <input type="checkbox" id="<?php echo $item['id']; ?>" />
-                            <label 
-                                class="checkboxLabel"
-                                data-cat="huishouden"
-                                data-id="<?php echo $item['id']; ?>"
-                                for="<?php echo $item['id']; ?>"
-                            >
-                                <?php echo $item['item']; ?>
-                            </label>
-                        </p>   
-                    <?php } ?>                      
-                    <div class="list3"></div>  
-                    <input type="hidden" name="category" value="huishouden">
-                    <input type="text" name="item" id="item" placeholder="Toevoegen..."> <button form="form-3" name="form-1" type="submit">Voeg toe</button>
-                </form>
-                
-                <h2>Overig</h2>
-                <form id="form-4" action="" method="POST">
-                    <?php foreach (listGroceries('overig') as $item) { ?>
-                        <p>
-                            <input type="checkbox" id="<?php echo $item['id']; ?>" />
-                            <label 
-                                class="checkboxLabel"
-                                data-cat="overig"
-                                data-id="<?php echo $item['id']; ?>"
-                                for="<?php echo $item['id']; ?>"
-                            >
-                                <?php echo $item['item']; ?>
-                            </label>
-                        </p>   
-                    <?php } ?>                     
-                    <div class="list4"></div>
-                    <input type="hidden" name="category" value="overig">
-                    <input type="text" name="item" id="item" placeholder="Toevoegen..."> <button form="form-4" name="form-1" type="submit">Voeg toe</button>
-                </form>                
+                foreach($data as $category => $items) {  ?>
+                    
+                    <div class="todo-cat">
+
+                        <h2 id="js-list-title" class="inline"><?php echo htmlspecialchars($category); ?></h2>
+                        <img
+                            src="./icons/edit.png"
+                            alt="edit-icon"
+                            width="32px"
+                            height="32px"
+                            class="edit js-edit"
+                            data-group="categories"
+                            data-id="<?php echo htmlspecialchars($items['cat_id']); ?>"
+                        >
+                        <img 
+                            src="./icons/delete.png"
+                            alt="delete-icon"
+                            width="32px"
+                            height="32px"
+                            class="delete js-delete"
+                            data-group="categories"
+                            data-id="<?php echo htmlspecialchars($items['cat_id']); ?>"
+                        >
+
+                        <?php foreach($items as $item) {
+
+                        // if item id (items) exists display item checkbox
+                            if(!empty($item['id'])) { ?>
+
+                                <input type="checkbox" id="<?php echo htmlspecialchars($item['id']); ?>" />
+                                <label 
+                                    class="checkboxLabel"
+                                    data-group="items"
+                                    data-id="<?php echo htmlspecialchars($item['id']); ?>"
+                                    for="<?php echo htmlspecialchars($item['id']); ?>"
+                                ><?php echo htmlspecialchars($item['item']); ?></label>
+
+                            <?php } // endif ?>
+
+                        <?php } // end foreach $items ?>
+
+                        <form id="item-name-input_<?php echo $items['cat_id']; ?>" action="./functions.php" method="POST">
+                            <input type="hidden" name="category_id" value="<?php echo htmlspecialchars($items['cat_id']); ?>">
+                            <input type="text" name="item" id="item" placeholder="Toevoegen..."> <button form="item-name-input_<?php echo htmlspecialchars($items['cat_id']); ?>" name="item-name-input" type="submit">Voeg toe</button> 
+                        </form>
+
+                    </div> <!-- /todo-cat -->
+
+                <?php } // end foreach $data ?>
+
+                <span id="js-add-category" class="add-category">Voeg categorie toe</span>
+
+                <div id="category-name-input" class="hide">
+                    <form id="category_name_form" action="./functions.php" method="POST">
+                        <input type="text" name="category_name" id="category_name" placeholder="Nieuwe categorie..."> <button form="category_name_form" name="category_name_form" type="submit">Voeg toe</button>
+                    </form>
+                </div>
+
             </div>
         </div>
         <img class="firework" src="./img/firework.png" alt="">
