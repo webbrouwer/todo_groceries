@@ -48,7 +48,11 @@ p {
 }
 
 .edit {
-    font-style: italic;
+    margin-left: 24px;
+}
+.edit:hover,
+.delete:hover {
+    cursor: pointer;
 }
 
 .add-category {
@@ -61,11 +65,6 @@ p {
 .add-category:hover {
     cursor: pointer;
 }
-
-.hidden {
-    display: none;
-}
-
 
 ul li {
     color: #545454;

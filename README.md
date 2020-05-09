@@ -10,7 +10,5 @@ Afterwards fill in your the stuff you need and go for the groceries you need!
 
 ## TODO
 
-* Make category / list names changable
-* Add delete categories
 * Add css versioning
 * Add _complete_ sound when item is completed

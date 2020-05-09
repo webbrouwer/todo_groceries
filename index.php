@@ -18,49 +18,61 @@ include "./functions.php";
             <div class="todo-box">
                 <h1>Boodschappen</h1>
 
-                <?php 
-                
-                $data = getAllCategoriesAndItems();
+                <?php $data = getAllCategoriesAndItems();
 
-                foreach($data as $category => $items) { ?>
+                foreach($data as $category => $items) {  ?>
+                    
+                    <div class="todo-cat">
 
-                    <?php //echo '<pre>'; ?>
-                    <?php //var_dump($items['']['cat_id']); ?>
+                        <h2 id="js-list-title" class="inline"><?php echo htmlspecialchars($category); ?></h2>
+                        <img
+                            src="./icons/edit.png"
+                            alt="edit-icon"
+                            width="32px"
+                            height="32px"
+                            class="edit js-edit"
+                            data-group="categories"
+                            data-id="<?php echo htmlspecialchars($items['cat_id']); ?>"
+                        >
+                        <img 
+                            src="./icons/delete.png"
+                            alt="delete-icon"
+                            width="32px"
+                            height="32px"
+                            class="delete js-delete"
+                            data-group="categories"
+                            data-id="<?php echo htmlspecialchars($items['cat_id']); ?>"
+                        >
 
-                    <h2 id="js-list-title" class="inline"><?php echo $category; ?></h2> 
-                    <span id="js-edit" class="edit">Edit</span>
-                    <span
-                        id="js-delete"
-                        class="delete"
-                        data-id="<?php echo $items['']['cat_id']; ?>"
-                    >
-                        Delete
-                    </span> 
+                        <?php foreach($items as $item) {
 
-                    <?php foreach($items as $item) { 
-                        if(!empty($item['id'])) { ?>
-                            <input type="checkbox" id="<?php echo $item['id']; ?>" />
-                            <label 
-                                class="checkboxLabel"
-                                data-group="items"
-                                data-id="<?php echo $item['id']; ?>"
-                                for="<?php echo $item['id']; ?>"
-                            >
-                                <?php echo $item['item']; ?>
-                            </label>
-                        <?php } // endif ?>
-                    <?php } // end foreach ?>
+                        // if item id (items) exists display item checkbox
+                            if(!empty($item['id'])) { ?>
 
-                    <form id="item-name-input_<?php echo $item['cat_id']; ?>" action="./functions.php" method="POST">
-                        <input type="hidden" name="category_id" value="<?php echo $item['cat_id']; ?>">
-                        <input type="text" name="item" id="item" placeholder="Toevoegen..."> <button form="item-name-input_<?php echo $item['cat_id']; ?>" name="item-name-input" type="submit">Voeg toe</button> 
-                    </form>
+                                <input type="checkbox" id="<?php echo htmlspecialchars($item['id']); ?>" />
+                                <label 
+                                    class="checkboxLabel"
+                                    data-group="items"
+                                    data-id="<?php echo htmlspecialchars($item['id']); ?>"
+                                    for="<?php echo htmlspecialchars($item['id']); ?>"
+                                ><?php echo htmlspecialchars($item['item']); ?></label>
 
-                <?php } ?>
+                            <?php } // endif ?>
+
+                        <?php } // end foreach $items ?>
+
+                        <form id="item-name-input_<?php echo $items['cat_id']; ?>" action="./functions.php" method="POST">
+                            <input type="hidden" name="category_id" value="<?php echo htmlspecialchars($items['cat_id']); ?>">
+                            <input type="text" name="item" id="item" placeholder="Toevoegen..."> <button form="item-name-input_<?php echo htmlspecialchars($items['cat_id']); ?>" name="item-name-input" type="submit">Voeg toe</button> 
+                        </form>
+
+                    </div> <!-- /todo-cat -->
+
+                <?php } // end foreach $data ?>
 
                 <span id="js-add-category" class="add-category">Voeg categorie toe</span>
 
-                <div id="category-name-input" class="hidden">
+                <div id="category-name-input" class="hide">
                     <form id="category_name_form" action="./functions.php" method="POST">
                         <input type="text" name="category_name" id="category_name" placeholder="Nieuwe categorie..."> <button form="category_name_form" name="category_name_form" type="submit">Voeg toe</button>
                     </form>
