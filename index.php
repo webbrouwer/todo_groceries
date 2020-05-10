@@ -8,7 +8,7 @@ include "./functions.php";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amy & Mickey's Boodschappen</title>
-    <link rel="stylesheet" href="./style/style.css">
+    <link rel="stylesheet" href="./style/style.css?v=1">
 
     <link rel="shortcut icon" type="image/png" href="./favicon.png"/>   
 </head>
