@@ -87,6 +87,6 @@ include "./functions.php";
             <span>Website gemaakt door Amy & Mickey</span>
         </footer>     
     </div>    
-<script src="./js/main.js"></script>
+<script src="./js/main.js?v=1"></script>
 </body>
 </html>

@@ -39,7 +39,10 @@ addCategory.addEventListener('click', function() {
 document.addEventListener('click', function (event) {
 
 	// If the clicked element doesn't have the right selector, bail
-	if (!event.target.matches('.checkboxLabel')) return;
+  if (!event.target.matches('.checkboxLabel')) return;
+  
+  // Play complete sound
+  play()  
 
 	// Add class hide to clicked element
   event.target.classList.add('hide-animation');    
@@ -48,9 +51,6 @@ document.addEventListener('click', function (event) {
   setTimeout(function() {
       event.target.classList.add('hide');
   }, 500)
-
-  // Play complete sound
-  play()
 
   // Store values of checkbox
   var data = {

@@ -9,5 +9,3 @@ Afterwards fill in your the stuff you need and go for the groceries you need!
 ```git push production master```
 
 ## TODO
-
-* Add _complete_ sound when item is completed
