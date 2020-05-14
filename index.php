@@ -11,7 +11,7 @@ include "./functions.php";
     <link rel="stylesheet" href="./style/style.css?v=1">
 
     <link rel="shortcut icon" type="image/png" href="./favicon.png"/>
-    <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
 <body>
     <div class="site-wrapper">
