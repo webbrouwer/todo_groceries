@@ -85,7 +85,7 @@ include "./functions.php";
         <div class="circle"></div>
         <footer>
             <span>Website gemaakt door Amy & Mickey</span>
-        </footer>         
+        </footer>     
     </div>    
 <script src="./js/main.js"></script>
 </body>

@@ -8,6 +8,14 @@ function escapeHtml(unsafe) {
          .replace(/'/g, "&#039;");
 }
 
+
+// Escape input
+function play() {
+  var audio = new Audio('sound-effect/finished-task.mp3');
+    audio.play();
+} 
+
+
 /**
 *
 * Complete item
@@ -34,32 +42,35 @@ document.addEventListener('click', function (event) {
 	if (!event.target.matches('.checkboxLabel')) return;
 
 	// Add class hide to clicked element
-    event.target.classList.add('hide-animation');
+  event.target.classList.add('hide-animation');    
     
-    // Set timeout before hide item
-    setTimeout(function() {
-        event.target.classList.add('hide');
-    }, 500)
-    
-    // Store values of checkbox
-    var data = {
-      id: escapeHtml(event.target.getAttribute('data-id')),
-      group: escapeHtml(event.target.getAttribute('data-group')),      
-      data_action: 'delete_item',
-    };
+  // Set timeout before hide item
+  setTimeout(function() {
+      event.target.classList.add('hide');
+  }, 500)
 
-    // Ajax POST to send checkbox value to PHP processor
-    fetch("functions.php", {
-      method: "POST",
-      mode: "same-origin",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json"
-      },
-        body: JSON.stringify(data)
-    }).then(res => {
-      console.log("Request complete! response:", res);
-    });    
+  // Play complete sound
+  play()
+
+  // Store values of checkbox
+  var data = {
+    id: escapeHtml(event.target.getAttribute('data-id')),
+    group: escapeHtml(event.target.getAttribute('data-group')),      
+    data_action: 'delete_item',
+  };
+
+  // Ajax POST to send checkbox value to PHP processor
+  fetch("functions.php", {
+    method: "POST",
+    mode: "same-origin",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json"
+    },
+      body: JSON.stringify(data)
+  }).then(res => {
+    console.log("Request complete! response:", res);
+  });    
 
 }, false);
 
