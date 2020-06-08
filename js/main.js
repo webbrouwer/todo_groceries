@@ -9,7 +9,7 @@ function escapeHtml(unsafe) {
 }
 
 
-// Escape input
+// Play sound
 function play() {
   var audio = new Audio('sound-effect/finished-task.mp3');
     audio.play();
